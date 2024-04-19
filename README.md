@@ -13,7 +13,9 @@ By Andreas Borg on 28/01/2013
 # Goal of this port
 
 I wanted to see if I could use the lib for my music projects which are not related to openFrameworks.
-I wanted to make it compile for Cisual Studio 2022
+
+I wanted to make it compile for Visual Studio 2022.
+
 Now that I went through the code and tested it, I came to the conclusion that though the library does the job, the way it's designed does not really suit my needs and coding methods.
 I will not go further using it then.
 I'd rather develop a new one from scratch, and use this one as a reference if I need to.
