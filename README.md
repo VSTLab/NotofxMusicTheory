@@ -3,28 +3,74 @@ ofxMusicTheory
 
 ![image](https://github.com/borg/ofxMusicTheory/blob/master/ofxaddons_thumbnail.png)
 
+This project was originally created as:
 A music theory [openFrameworks](http://www.openframeworks.cc/) addon originally based on the [Python Mingus](https://code.google.com/p/mingus/) library
 
-Created by Andreas Borg on 28/01/2013
+By Andreas Borg on 28/01/2013
 
 [crea.tion.to](http://crea.tion.to)
 
+# Goal of this port
 
-Change log:
+I wanted to see if I could use the lib for my music projects which are not related to openFrameworks.
+I wanted to make it compile for Cisual Studio 2022
+Now that I went through the code and tested it, I came to the conclusion that though the library does the job, the way it's designed does not really suit my needs and coding methods.
+I will not go further using it then.
+I'd rather develop a new one from scratch, and use this one as a reference if I need to.
 
-    Major rewrite July 2016
-    / Changed all objects into shared_ptr. Most functions should return copies, but be careful when passing chords around as they may share pointers to same notes unless first copied.
-    + Added factory methods for Note, Chord, Scale (eg. NotePtr n = Note::create("Bb"))
-    + Copy returns unique deep copies
-    + Updated to C++11 and cleaned up a lot
-    + Fixed plenty of bugs
-    + Adapted octaves to Ableton midi register where C-3 = 60 (default before was C-4 = 48)
-    + Added a range of chords and scales
-    - Removed orphan code (eg. melody generator).
-    - Removed rhythm & time classes. They were never particularly good.
+**Consequently, I will not maintain it in any way.**
 
+If you plan using it, you should fork and rewrite maintain the code as needed.
 
-**Example usage:**
+# Changes made
+
+Changes made in april 2024:
+
+Remove openFrameworks dependencies to make a simple C++ library and a Windows test console command.
+Make the project compile under Visual Studio 2022 and test.
+
+Replace openFrameworks libraries used by:
+- boost 1.84
+- mathfu
+- spdlog (in fact, I just reference spdlog in include path but not use it. I just put traces logs in #ifdef LOGS directive)
+
+# Install and compile
+
+## Install dependencies:
+
+- boost 1.84
+- mathfu
+- spdlog (in fact, I just reference spdlog in include path but not use it. *I just put traces logs in #ifdef LOGS directive, so, this one is not needed*)
+
+The best is to install them in a common directory. 
+
+Example: 
+
+    C:\ExtLibs
+    C:\ExtLibs\boost_1_84_0
+    C:\ExtLibs\mathfu
+    C:\ExtLibs\spdlog
+
+## Clone the repository
+
+## Config the solution
+
+If you followed the directory structure mentioned above, edit config\common.props to set the path to ExtLibs. It should compile and run.
+Otherwise, edit each config\\\*.props file to set the correct path to libs.
+
+Open the solution in VS 2022
+Press run.
+It should compile and run the test console application.
+
+# Usage
+
+Add the SolutionPath\MusicTheory\include to you Include Path
+
+    #include <MusicTheory/MusicTheory.h> 
+
+where you want to use it
+
+# Example code
 
 ```
 

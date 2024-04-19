@@ -19,15 +19,16 @@
 #ifndef _Diatonic
 #define _Diatonic
 
-#include "ofMain.h"
+#include <iostream>
+
 #include "Note.h"
 
 
 
 namespace MusicTheory{
     
-    static const string fifths = "F,C,G,D,A,E,B";
-    static map<string, deque<NotePtr> > _keyCache;
+    static const std::string fifths = "F,C,G,D,A,E,B";
+    static std::map<std::string, std::deque<NotePtr> > _keyCache;
     
 class Diatonic {
 	
@@ -46,7 +47,7 @@ class Diatonic {
     static NotePtr interval(NotePtr key, NotePtr startNote,int interval){
 	
 	    
-        deque<NotePtr> notesInKey = getNotes(key);
+        std::deque<NotePtr> notesInKey = getNotes(key);
     
         for(int n=0;n<notesInKey.size();n++){
             if(notesInKey[n]->name == startNote->name){
@@ -68,15 +69,15 @@ class Diatonic {
      Note however that the latter example will also get cleaned up to 'G'. \
      This function will raise an !NoteFormatError if the key isn't recognised
      */
-    static deque<NotePtr> getNotes(NotePtr key){
+    static std::deque<NotePtr> getNotes(NotePtr key){
         //check cache
  
-        if (_keyCache[key->name+ofToString(key->octave)].size()>0){
+        if (_keyCache[key->name+std::to_string(key->octave)].size()>0){
         
             //since now shared ptrs need to return copies, else modifies map on use
             
-            deque<NotePtr> copyDeque;
-            for(NotePtr n:_keyCache[key->name+ofToString(key->getOctave())]){
+            std::deque<NotePtr> copyDeque;
+            for(NotePtr n:_keyCache[key->name+std::to_string(key->getOctave())]){
                 copyDeque.push_back(n->copy());
             }
             
@@ -86,25 +87,23 @@ class Diatonic {
         
         
         //root note
-        string root = key->name.substr(0,1);
+        std::string root = key->name.substr(0,1);
         
         
         //fifth_index = 0 is a special case. It's the key of F and needs
         //Bb instead of B included in the result.
         
-        vector<string> fifthArr = ofSplitString(fifths,",");
-        vector<string>::iterator it = find(fifthArr.begin(),fifthArr.end(),root);
+        auto fifthArr = utils::splitString(fifths, ",");
+        std::vector<std::string>::iterator it = find(fifthArr.begin(),fifthArr.end(),root);
         int fifthIndex = it-fifthArr.begin();// Note::getNoteId(fifthArr,root);?
         
-       
-        
-        deque<NotePtr> result;
-        string keyAccidentals = key->name.substr(1);
+        std::deque<NotePtr> result;
+        std::string keyAccidentals = key->name.substr(1);
         
         if(fifthIndex != 0){
             //not fifths
             //add
-            string startNote = fifthArr[(fifthIndex - 1) % 7] + keyAccidentals;
+            std::string startNote = fifthArr[(fifthIndex - 1) % 7] + keyAccidentals;
             NotePtr note = Note::create(startNote,key->getOctave());
             result.push_back(note);
         
@@ -134,13 +133,13 @@ class Diatonic {
         sort(result.begin(),result.end(),Note::comparePtr);
 
         
-       // vector<Note>::iterator it = find(result.begin(),result.end(),root);
+       // std::vector<Note>::iterator it = find(result.begin(),result.end(),root);
         int tonic = Note::getNoteId(result,key);
         
        // cout<<"tonic "<<tonic<<" "<<key<<" "<<result.size()<<endl;
         
         
-        deque<NotePtr> keySorted;
+        std::deque<NotePtr> keySorted;
         keySorted.insert(keySorted.begin(),result.begin()+tonic, result.end());
         
         //now in next octave
@@ -166,7 +165,7 @@ class Diatonic {
 
         //+1 octave if passed tonic
         int tonic = Note::getNoteId(result,key);
-        deque<NotePtr> keySorted;
+        std::deque<NotePtr> keySorted;
         if(tonic>-1){
             keySorted.insert(keySorted.begin(),result.begin()+tonic, result.end());
 
@@ -176,17 +175,21 @@ class Diatonic {
                 result[i]->changeOctave(1);
                 keySorted.push_back(result[i]);
             }
-        }else{
-            ofLogError()<<__FUNCTION__<<" Tonic not found"<<endl;
         }
+#ifdef LOGS
+        else
+        {
+            ofLogError()<<__FUNCTION__<<" Tonic not found"<< std::endl;
+        }
+#endif // LOGS
 
         //Save original to cache and return a copy so cache won't be corrupted by
         //modified pointers
         
-        _keyCache[key->name+ofToString(key->getOctave())] = keySorted;
+        _keyCache[key->name+std::to_string(key->getOctave())] = keySorted;
         
         
-        deque<NotePtr> copyDeque;
+        std::deque<NotePtr> copyDeque;
         for(NotePtr n:keySorted){
             copyDeque.push_back(n->copy());
         }
@@ -196,32 +199,32 @@ class Diatonic {
     
     
     
-    static void print(deque<Note> notes){
+    static void print(std::deque<Note> notes){
         
         
-        cout <<"[ ";
+        std::cout <<"[ ";
         for(int i = 0;i<notes.size();i++){
-            cout<<notes[i];
+            std::cout<<notes[i];
             if(i<notes.size()-1){
-                cout<<", ";
+                std::cout<<", ";
             }
         }
-        cout<<" ]"<<endl;
+        std::cout<<" ]"<< std::endl;
     }
     
     
     
-    static void print(deque<NotePtr> notes){
+    static void print(std::deque<NotePtr> notes){
         
         
-        cout <<"[ ";
+        std::cout <<"[ ";
         for(int i = 0;i<notes.size();i++){
-            cout<<notes[i];
+            std::cout<<notes[i];
             if(i<notes.size()-1){
-                cout<<", ";
+                std::cout<<", ";
             }
         }
-        cout<<" ]"<<endl;
+        std::cout<<" ]"<< std::endl;
     }
     
     

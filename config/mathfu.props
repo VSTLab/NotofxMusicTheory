@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<!-- 
+ItemDefinitionGroup can have Condition property to limit definition to certain conditions
+Example:
+Condition="'$(Configuration)|$(Platform)'=='Release|x64'"
+-->
+	<ImportGroup Label="PropertySheets">
+		<Import Project="$(SolutionDir)\config\common.props" />
+	</ImportGroup>
+	<PropertyGroup Label="UserMacros">
+		<MATHFU_PATH>$(EXT_LIBS_PATH)\mathfu</MATHFU_PATH>
+		<MATHFU_INC_PATH>$(MATHFU_PATH)\include</MATHFU_INC_PATH>
+	</PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(MATHFU_INC_PATH);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+</Project>

@@ -11,7 +11,6 @@
 #ifndef _Intervals
 #define _Intervals
 
-#include "ofMain.h"
 #include "Note.h"
 //#include "Utils.h"
 #include "Diatonic.h"
@@ -166,7 +165,7 @@ class Intervals {
      use the minor and major functions to work around the corner cases.
      */
     
-    static NotePtr getInterval(NotePtr note, int interval,string key = "C"){
+    static NotePtr getInterval(NotePtr note, int interval,std::string key = "C"){
 	
     /*
         intervals = map(lambda x: (NotePtrs::note_to_int(key) + x) % 12,[0, 2, 4, 5, 7, 9, 11]);
@@ -225,19 +224,14 @@ class Intervals {
     
     
      */
-    static string determine(NotePtr note1, NotePtr note2, bool shorthand = false){
+    static std::string determine(NotePtr note1, NotePtr note2, bool shorthand = false){
 	
     
         //Corner case for unisons ('A' and 'Ab', for instance)
         if(note1->getUnaltered() == note2->getUnaltered()){
             //get num of accidentals
-            int augs = ofStringTimesInString(note1->name,"#");
-            int dims = ofStringTimesInString(note1->name,"b");
-            int x = augs-dims;
-            
-            augs = ofStringTimesInString(note2->name,"#");
-            dims = ofStringTimesInString(note2->name,"b");
-            int y = augs-dims;
+            int x = utils::getNumberOfAccidentals(note1->name);
+            int y = utils::getNumberOfAccidentals(note2->name);
         
             if (x == y){
                 if(!shorthand){
@@ -269,8 +263,8 @@ class Intervals {
         }
         //Other intervals
             
-        vector<string> nNames = ofSplitString(fifths,",");
-        vector<string>::iterator it = find(nNames.begin(),nNames.end(),note1->getUnaltered());
+        auto nNames = utils::splitString(fifths,",");
+        std::vector<std::string>::iterator it = find(nNames.begin(),nNames.end(),note1->getUnaltered());
         int n1 = it-nNames.begin();
             
         it = find(nNames.begin(),nNames.end(),note2->getUnaltered());
@@ -286,14 +280,14 @@ class Intervals {
             
             //tell me nicer ways to do simple lists please..not used to C++ arrays
             
-            vector< vector<string> > fifth_steps;
-            fifth_steps.push_back(ofSplitString("unison,1,0",","));
-            fifth_steps.push_back(ofSplitString("fifth,5,7",","));
-            fifth_steps.push_back(ofSplitString("second,2,2",","));
-            fifth_steps.push_back(ofSplitString("sixth,6,9",","));
-            fifth_steps.push_back(ofSplitString("third,3,4",","));
-            fifth_steps.push_back(ofSplitString("seventh,7,11",","));
-            fifth_steps.push_back(ofSplitString("fourth,4,5",","));
+            std::vector< std::vector<std::string> > fifth_steps;
+            fifth_steps.push_back(utils::splitString("unison,1,0",","));
+            fifth_steps.push_back(utils::splitString("fifth,5,7",","));
+            fifth_steps.push_back(utils::splitString("second,2,2",","));
+            fifth_steps.push_back(utils::splitString("sixth,6,9",","));
+            fifth_steps.push_back(utils::splitString("third,3,4",","));
+            fifth_steps.push_back(utils::splitString("seventh,7,11",","));
+            fifth_steps.push_back(utils::splitString("fourth,4,5",","));
             
             
            
@@ -304,7 +298,7 @@ class Intervals {
                 //Get the proper list from the number of fifth steps
             
             //maj = number of major steps for this interval
-           int maj = ofToInt(fifth_steps[number_of_fifth_steps][2]);
+           int maj = std::stoi(fifth_steps[number_of_fifth_steps][2]);
         
             //if maj is equal to the half steps between note1 and note2
             //the interval is major or perfect
@@ -330,7 +324,7 @@ class Intervals {
                 if(!shorthand){
                     return "augmented " + fifth_steps[number_of_fifth_steps][0];
                 }else{
-                    string str;
+                    std::string str;
                     for(int i=0;i<(half_notes - maj) ;i++){
                         str+="#";
                     }
@@ -347,7 +341,7 @@ class Intervals {
                 if(!shorthand){
                     return "diminished " + fifth_steps[number_of_fifth_steps][0];
                 }else{
-                    string str;
+                    std::string str;
                     for(int i=0;i<(maj - half_notes);i++){
                         str+="b";
                     }
@@ -388,10 +382,7 @@ private:
         
         // We are practically done right now, but we need to be able to create
         // the minor seventh of Cb and get Bbb instead of B######### as the result
-        int augs = ofStringTimesInString(note2->name,"#");
-        int dims = ofStringTimesInString(note2->name,"b");
-        
-        int val =augs-dims;
+        int val =utils::getNumberOfAccidentals(note2->name);
         
         
         // These are some checks to see if we have generated too many #'s

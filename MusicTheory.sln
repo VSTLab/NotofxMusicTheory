@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MusicTheoryExample", "MusicTheoryExample\MusicTheoryExample.vcxproj", "{CC6692AB-DEB2-4FE1-9ADA-DD5F6EA8E917}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D0EF39D8-F90B-4702-BB42-4DE8485CD3EB} = {D0EF39D8-F90B-4702-BB42-4DE8485CD3EB}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MusicTheory", "MusicTheory\MusicTheory.vcxproj", "{D0EF39D8-F90B-4702-BB42-4DE8485CD3EB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CC6692AB-DEB2-4FE1-9ADA-DD5F6EA8E917}.Debug|x64.ActiveCfg = Debug|x64
+		{CC6692AB-DEB2-4FE1-9ADA-DD5F6EA8E917}.Debug|x64.Build.0 = Debug|x64
+		{CC6692AB-DEB2-4FE1-9ADA-DD5F6EA8E917}.Debug|x86.ActiveCfg = Debug|Win32
+		{CC6692AB-DEB2-4FE1-9ADA-DD5F6EA8E917}.Debug|x86.Build.0 = Debug|Win32
+		{CC6692AB-DEB2-4FE1-9ADA-DD5F6EA8E917}.Release|x64.ActiveCfg = Release|x64
+		{CC6692AB-DEB2-4FE1-9ADA-DD5F6EA8E917}.Release|x64.Build.0 = Release|x64
+		{CC6692AB-DEB2-4FE1-9ADA-DD5F6EA8E917}.Release|x86.ActiveCfg = Release|Win32
+		{CC6692AB-DEB2-4FE1-9ADA-DD5F6EA8E917}.Release|x86.Build.0 = Release|Win32
+		{D0EF39D8-F90B-4702-BB42-4DE8485CD3EB}.Debug|x64.ActiveCfg = Debug|x64
+		{D0EF39D8-F90B-4702-BB42-4DE8485CD3EB}.Debug|x64.Build.0 = Debug|x64
+		{D0EF39D8-F90B-4702-BB42-4DE8485CD3EB}.Debug|x86.ActiveCfg = Debug|Win32
+		{D0EF39D8-F90B-4702-BB42-4DE8485CD3EB}.Debug|x86.Build.0 = Debug|Win32
+		{D0EF39D8-F90B-4702-BB42-4DE8485CD3EB}.Release|x64.ActiveCfg = Release|x64
+		{D0EF39D8-F90B-4702-BB42-4DE8485CD3EB}.Release|x64.Build.0 = Release|x64
+		{D0EF39D8-F90B-4702-BB42-4DE8485CD3EB}.Release|x86.ActiveCfg = Release|Win32
+		{D0EF39D8-F90B-4702-BB42-4DE8485CD3EB}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8D52438E-A963-4005-80C4-D6F36C217122}
+	EndGlobalSection
+EndGlobal

@@ -11,19 +11,23 @@
 #ifndef _Interval
 #define _Interval
 
-#include "ofMain.h"
+#include <string>
+#include <vector>
+#include <map>
+
+#include <boost/algorithm/string.hpp>
+#include <boost/regex.hpp>
+
 #include "Note.h"
 #include "Diatonic.h"
-#include "Poco/RegularExpression.h"
-using Poco::RegularExpression;
 
 //class Note;
 namespace MusicTheory{
     
     typedef NotePtr (*IntervalFunctionPointer)(NotePtr);
-    typedef map<string,IntervalFunctionPointer> IntervalFuncLookup;
+    typedef std::map<std::string,IntervalFunctionPointer> IntervalFuncLookup;
  
-    static vector<string>romanNumerals = {
+    static std::vector<std::string>romanNumerals = {
             "I",
             "bII",
             "II",
@@ -316,10 +320,10 @@ class Interval {
      use the minor and major functions to work around the corner cases.
      */
     
-   // static NotePtr getInterval(NotePtr note, int interval,string key = "C"){
+   // static NotePtr getInterval(NotePtr note, int interval,std::string key = "C"){
 	
     /*
-        Interval = map(lambda x: (NotePtrs::note_to_int(key) + x) % 12,[0, 2, 4, 5, 7, 9, 11]);
+        Interval = std::map(lambda x: (NotePtrs::note_to_int(key) + x) % 12,[0, 2, 4, 5, 7, 9, 11]);
         key_notes = diatonic.get_notes(key);
     
 	for x in key_notes){
@@ -375,18 +379,18 @@ class Interval {
     
     
      */
-    static string determine(NotePtr note1, NotePtr note2, bool shorthand = false){
+    static std::string determine(NotePtr note1, NotePtr note2, bool shorthand = false){
 	
     
         //Corner case for unisons ('A' and 'Ab', for instance)
         if(note1->getUnaltered() == note2->getUnaltered()){
             //get num of accidentals
-            int augs = ofStringTimesInString(note1->name, "#");
-            int dims = ofStringTimesInString(note1->name, "b");
+            int augs = std::ranges::count(note1->name, '#');
+            int dims = std::ranges::count(note1->name, 'b');
             int x = augs-dims;
             
-            augs = ofStringTimesInString(note2->name, "#");
-            dims = ofStringTimesInString(note2->name, "b");
+            augs = std::ranges::count(note2->name, '#');
+            dims = std::ranges::count(note2->name, 'b');
             int y = augs-dims;
         
             if (x == y){
@@ -419,11 +423,13 @@ class Interval {
         }
         //Other Interval
             
-        vector<string> nNames = ofSplitString(fifths,",");
-        vector<string>::iterator it = find(nNames.begin(),nNames.end(),note1->getUnaltered());
+        auto nNames = utils::splitString(fifths, ",");
+        std::vector<std::string>::iterator it = find(nNames.begin(),nNames.end(),note1->getUnaltered());
         
         if(it == nNames.end()){
-            cout<<"Cannot find "<<note1->getUnaltered()<<" in fifths"<<endl;
+#ifdef LOGS
+            std::cout<<"Cannot find "<<note1->getUnaltered()<<" in fifths"<<std::endl;
+#endif // LOGS
             return "";
         }
         int n1 = it-nNames.begin();
@@ -432,7 +438,9 @@ class Interval {
             
         it = find(nNames.begin(),nNames.end(),note2->getUnaltered());
         if(it == nNames.end()){
-            cout<<"Cannot find "<<note2->getUnaltered()<<" in fifths"<<endl;
+#ifdef LOGS
+            std::cout<<"Cannot find "<<note2->getUnaltered()<<" in fifths"<<std::endl;
+#endif // LOGS
             return "";
         }
         int n2 = it-nNames.begin();
@@ -446,7 +454,7 @@ class Interval {
         // [name, shorthand_name, half notes for major version of this interval]
         
 
-        static vector< vector<string> > fifth_steps{
+        static std::vector< std::vector<std::string> > fifth_steps{
         {"unison","1","0"},
         {"fifth","5","7"},
         {"second","2","2"},
@@ -463,7 +471,7 @@ class Interval {
             //Get the proper list from the number of fifth steps
         
         //maj = number of major steps for this interval
-       int maj = ofToInt(fifth_steps[number_of_fifth_steps][2]);
+       int maj = std::stoi(fifth_steps[number_of_fifth_steps][2]);
     
         //if maj is equal to the half steps between note1 and note2
         //the interval is major or perfect
@@ -489,7 +497,7 @@ class Interval {
             if(!shorthand){
                 return "augmented " + fifth_steps[number_of_fifth_steps][0];
             }else{
-                string str;
+                std::string str;
                 for(int i=0;i<(half_notes - maj) ;i++){
                     str+="#";
                 }
@@ -506,7 +514,7 @@ class Interval {
             if(!shorthand){
                 return "diminished " + fifth_steps[number_of_fifth_steps][0];
             }else{
-                string str;
+                std::string str;
                 for(int i=0;i<(maj - half_notes);i++){
                     str+="b";
                 }
@@ -529,15 +537,15 @@ class Interval {
     Each can be altered, eg. b3 or #11 and negative -3
      */
     
-    static NotePtr fromName(NotePtr note, string interval){
+    static NotePtr fromName(NotePtr note, std::string interval){
         bool neg = (bool) (interval.substr(0,1)=="-");
         NotePtr n = (*IntervalFunctionLookup()[interval])(note);
         
-        ofStringReplace(interval,"-","");
-        ofStringReplace(interval,"b","");
-        ofStringReplace(interval,"#","");
+        boost::replace_all(interval, "-", "");
+        boost::replace_all(interval, "b", "");
+        boost::replace_all(interval, "#", "");
         
-        int diff = ofToInt(interval);
+        int diff = std::stoi(interval);
         int octDiff = floor(diff/8);
         
         
@@ -560,7 +568,7 @@ class Interval {
     Let's keep it simple and consistent.
     */
     
-    static string toRoman(int interval){
+    static std::string toRoman(int interval){
      int diff = 0;
         if(interval<0){
             interval = (-interval)%12;
@@ -571,44 +579,45 @@ class Interval {
         return romanNumerals[diff];
     }
     
-    static string getRoman(int interval){
+    static std::string getRoman(int interval){
         return Interval::toRoman(interval);
     }
     
     
     
-    static int fromRoman(string v){
-        ofStringReplace(v, " ", "");
-        
-        RegularExpression::Match match;
-        
-        RegularExpression accEx("[#b]*(?=[iIvV])");//find accidentals
-        string acc="";
-        if(accEx.match(v, match) != 0) {
-            acc = v.substr(0,match.length);
-        }
-        
-        
-        int augs = ofStringTimesInString(acc, "#");
-        int dims = ofStringTimesInString(acc, "b");
+    static int fromRoman(std::string v){
+        boost::replace_all(v, " ", "");
 
-        int accidentals = augs-dims;
-        string roman = v.substr((augs+dims));//remove accidentals
-      
-        RegularExpression romanEx("(?<!d)[iIvV]*");//find all romans not prefixed by d, thus exclude i in dim..
-        
-        if(romanEx.match(roman, match) != 0) {
-            roman = roman.substr(match.offset,match.length);
+        boost::regex accEx{ "[#b]*(?=[iIvV])" };//find accidentals
+        boost::smatch match;
+        std::string acc;
+        if(boost::regex_search(v, match, accEx)) {
+            acc = v.substr(0,match.size());
         }
         
-        roman = ofToUpper(roman);
         
+        int augs = utils::getNumberOfSharps(acc);
+        int dims = utils::getNumberOfFlats(acc);
+        int accidentals = utils::getNumberOfAccidentals(acc);
+        std::string roman = v.substr((augs+dims));//remove accidentals
+      
+
+        boost::regex romanEx{ "(?<!d)[iIvV]*" };//find all romans not prefixed by d, thus exclude i in dim..
+        
+        if(boost::regex_search(roman, match, romanEx)) {
+            roman = match[0].str();
+        }
+        
+        std::transform(roman.begin(), roman.end(), roman.begin(), ::toupper);
+
         for(int i=0;i<romanNumerals.size();i++){
             if(romanNumerals[i] == roman){
                 return i+accidentals;
             }
         }
-        ofLogError()<<"Roman "<<v<<" not found"<<endl;
+#ifdef LOGS
+        ofLogError()<<"Roman "<<v<<" not found"<<std::endl;
+#endif // LOGS
         return 0;
     }
 private:
@@ -634,8 +643,8 @@ private:
         // We are practically done right now, but we need to be able to create
         // the minor seventh of Cb and get Bbb instead of B######### as the result
       
-        int augs = ofStringTimesInString(note2->name, "#");
-        int dims = ofStringTimesInString(note2->name, "b");
+        int augs = std::ranges::count(note2->name, '#');
+        int dims = std::ranges::count(note2->name, 'b');
         
         int val = augs-dims;
         
@@ -758,7 +767,7 @@ private:
     
 };//class
     
-typedef shared_ptr<Interval> IntervalPtr;
+typedef std::shared_ptr<Interval> IntervalPtr;
     
     
 }//namespace

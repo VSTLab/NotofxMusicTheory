@@ -1,47 +1,50 @@
-#include "ofMain.h"
-#include "ofxMusicTheory.h"
+#include "MusicTheory/MusicTheory.h"
+#include <iostream>
+#include <deque>
+#include <vector>
+#include <string>
 
 using namespace MusicTheory;
 //--------------------------------------------------------------
 int main(){
     NotePtr C = Note::create("C");
-    cout<<C<<endl;
+    std::cout<<C<< std::endl;
     
     NotePtr C2 = Note::fromInt(60);
-    cout<<C2<<endl;
+    std::cout<<C2<<std::endl;
     
     NotePtr b = C->getAugmented();
     
     C->augment();
-    cout<<"Aug "<<C<<endl;
+    std::cout<<"Aug "<<C<<std::endl;
     
     C->diminish();
-    cout<<"Dim "<<C<<endl;
+    std::cout<<"Dim "<<C<<std::endl;
     
     C->diminish();
-    cout<<"Dim "<<C<<endl;
+    std::cout<<"Dim "<<C<<std::endl;
     
     
     b->changeOctave(-1);
     b->augment();
     b->augment();
     b->augment();
-    cout<<b<<endl;
+    std::cout<<b<<std::endl;
     
     
-    cout<<"Diatonic name: "<<b->getDiatonicName()<<endl;
+    std::cout<<"Diatonic name: "<<b->getDiatonicName()<<std::endl;
     
     NotePtr c = b->getOctaveDown();
-    cout<<"Oct down: "<<c<<endl;
+    std::cout<<"Oct down: "<<c<<std::endl;
     
     NotePtr r = Note::create("C");
    
-    cout<<"Get diatones of: "<<r<<endl;
+    std::cout<<"Get diatones of: "<<r<<std::endl;
     
-    deque<NotePtr> scale = Diatonic::getNotes(r);
+    std::deque<NotePtr> scale = Diatonic::getNotes(r);
      
     for(int i=0;i<scale.size();i++){
-        cout<<scale[i]<<endl;
+        std::cout<<scale[i]<<std::endl;
     }
 
     
@@ -49,7 +52,7 @@ int main(){
     
     
     NotePtr abs6 = Interval::sixth(root,root);
-    cout<<"Absolute sixth of "<<root<<" is "<<abs6<<endl;
+    std::cout<<"Absolute sixth of "<<root<<" is "<<abs6<<std::endl;
     
     
     
@@ -57,69 +60,69 @@ int main(){
     
         
     NotePtr m2 = Interval::minorSecond(root);
-    cout<<"Min second of "<<root<<" is "<<m2<<endl;
+    std::cout<<"Min second of "<<root<<" is "<<m2<<std::endl;
     
     NotePtr M2 = Interval::majorSecond(root);
-    cout<<"Maj second of "<<root<<" is "<<M2<<endl;
+    std::cout<<"Maj second of "<<root<<" is "<<M2<<std::endl;
     
     
     NotePtr m3 = Interval::minorThird(root);
-    cout<<"Min third of "<<root<<" is "<<m3<<endl;
+    std::cout<<"Min third of "<<root<<" is "<<m3<<std::endl;
     
     NotePtr M3 = Interval::majorThird(root);
-    cout<<"Maj third of "<<root<<" is "<<M3<<endl;
+    std::cout<<"Maj third of "<<root<<" is "<<M3<<std::endl;
     
     
     NotePtr m4 = Interval::minorFourth(root);
-    cout<<"Min fourth of "<<root<<" is "<<m4<<endl;
+    std::cout<<"Min fourth of "<<root<<" is "<<m4<<std::endl;
     
     NotePtr P4 = Interval::perfectFourth(root);
-    cout<<"Perfect fourth of "<<root<<" is "<<P4<<endl;
+    std::cout<<"Perfect fourth of "<<root<<" is "<<P4<<std::endl;
     
     NotePtr M4 = Interval::majorFourth(root);
-    cout<<"Maj fourth of "<<root<<" is "<<M4<<endl;
+    std::cout<<"Maj fourth of "<<root<<" is "<<M4<<std::endl;
     
     
     NotePtr m5 = Interval::minorFifth(root);
-    cout<<"Min fifth of "<<root<<" is "<<m5<<endl;
+    std::cout<<"Min fifth of "<<root<<" is "<<m5<<std::endl;
     
     NotePtr P5 = Interval::perfectFifth(root);
-    cout<<"Perfect fifth of "<<root<<" is "<<P5<<endl;
+    std::cout<<"Perfect fifth of "<<root<<" is "<<P5<<std::endl;
     
     NotePtr m6 = Interval::minorSixth(root);
-    cout<<"Min sixth of "<<root<<" is "<<m6<<endl;
+    std::cout<<"Min sixth of "<<root<<" is "<<m6<<std::endl;
     
     NotePtr M6 = Interval::majorSixth(root);
-    cout<<"Maj sixth of "<<root<<" is "<<M6<<endl;
+    std::cout<<"Maj sixth of "<<root<<" is "<<M6<<std::endl;
     
     NotePtr m7 = Interval::minorSeventh(root);
-    cout<<"Min seven of "<<root<<" is "<<m7<<endl;
+    std::cout<<"Min seven of "<<root<<" is "<<m7<<std::endl;
 
     NotePtr M7 = Interval::majorSeventh(root);
-    cout<<"Maj seven of "<<root<<" is "<<M7<<endl;
+    std::cout<<"Maj seven of "<<root<<" is "<<M7<<std::endl;
     
     
     
-    string m = Chord::getFullName("mM7");
+    std::string m = Chord::getFullName("mM7");
     
-    cout<<Chord::getFullName("mM7")<<" This one not found:" <<Chord::getFullName("oddname")<<endl;
-    //ofLog()<<a->name<<endl;
+    std::cout<<Chord::getFullName("mM7")<<" This one not found:" <<Chord::getFullName("oddname")<<std::endl;
+    //ofLog()<<a->name<<std::endl;
     
     
     ChordPtr ch = Chord::halfDiminishedSeventh(root);
-    cout<<ch<<endl;;
+    std::cout<<ch<<std::endl;;
     
     
     ChordPtr st = Chord::tonic7(root);
-    cout<<"Subtonic to "<<root<<" is "<<st<<endl;
+    std::cout<<"Subtonic to "<<root<<" is "<<st<<std::endl;
     
     
     ChordPtr subdom = Chord::subdominant(root);
-    cout<<"Subdominant to "<<root<<" is "<<subdom<<endl;
+    std::cout<<"Subdominant to "<<root<<" is "<<subdom<<std::endl;
     
     
     ChordPtr subdomInv = Chord::firstInversion(subdom);
-    cout<<"Subdominant first inversion is "<<subdomInv<<endl;
+    std::cout<<"Subdominant first inversion is "<<subdomInv<<std::endl;
     
     
     /*
@@ -127,7 +130,7 @@ int main(){
      */
     
     ChordPtr ext5 = Chord::majorNinth(root);
-    cout<<"Ext fifth eg."<<ext5<<endl;
+    std::cout<<"Ext fifth eg."<<ext5<<std::endl;
     
     
 
@@ -135,39 +138,39 @@ int main(){
     bool allowInvensions = true;
     bool allowPolychords = true;
     
-    deque<NotePtr> triad = {
+    std::deque<NotePtr> triad = {
         {Note::create("F")},
         {Note::create("G")},
         {Note::create("C")}
     };
     
-    cout<<"Triad analysis "<<endl;
+    std::cout<<"Triad analysis "<<std::endl;
     Chord::print(triad);
-    vector<string> analyse = Chord::analyse(triad, useShorthand,allowInvensions,allowPolychords);
+    std::vector<std::string> analyse = Chord::analyse(triad, useShorthand,allowInvensions,allowPolychords);
     for(int i = 0;i<analyse.size();i++){
-        cout<<"Opt "<<i<<": "<<analyse[i]<<endl;
+        std::cout<<"Opt "<<i<<": "<<analyse[i]<<std::endl;
     }
     
     
     
-    deque<NotePtr> seventh = {
+    std::deque<NotePtr> seventh = {
         {Note::create("C")},
         {Note::create("E")},
         {Note::create("G")},
         {Note::create("A")}
     };
     
-    cout<<endl<<"Seventh analysis "<<endl;
+    std::cout<<std::endl<<"Seventh analysis "<<std::endl;
     
     Chord::print(seventh);
     
     analyse = Chord::analyse(seventh, useShorthand,allowInvensions,allowPolychords);
     for(int i = 0;i<analyse.size();i++){
-        cout<<"Opt "<<i<<": "<<analyse[i]<<endl;
+        std::cout<<"Opt "<<i<<": "<<analyse[i]<<std::endl;
     }
     
     
-    deque<NotePtr> ext = {
+    std::deque<NotePtr> ext = {
         {Note::create("C")},
         {Note::create("E")},
         {Note::create("G")},
@@ -175,27 +178,27 @@ int main(){
         {Note::create("D")}
     };
 
-    cout<<endl<<"Extended  fifth analysis "<<endl;
+    std::cout<<std::endl<<"Extended  fifth analysis "<<std::endl;
     Chord::print(ext);
     analyse = Chord::analyse(ext, useShorthand,allowInvensions,allowPolychords);
     for(int i = 0;i<analyse.size();i++){
-        cout<<"Opt "<<i<<": "<<analyse[i]<<endl;
+        std::cout<<"Opt "<<i<<": "<<analyse[i]<<std::endl;
     }
     
     
-    cout<<endl<<"Extended  sixth analysis "<<endl;
+    std::cout<<std::endl<<"Extended  sixth analysis "<<std::endl;
     ext.push_back(Note::create("A"));
     Chord::print(ext);
     analyse = Chord::analyse(ext, useShorthand,allowInvensions,allowPolychords);
     for(int i = 0;i<analyse.size();i++){
-        cout<<"Opt "<<i<<": "<<analyse[i]<<endl;
+        std::cout<<"Opt "<<i<<": "<<analyse[i]<<std::endl;
     }
     
     
 
     
     
-    cout<<endl<<"Extended  seventh analysis "<<endl;
+    std::cout<<std::endl<<"Extended  seventh analysis "<<std::endl;
     
     ChordPtr ext7 = Chord::majorNinth(root);
     
@@ -203,17 +206,17 @@ int main(){
     ext7->notes.push_back(Interval::fourth(root, root));
     ext7->notes.push_back(Interval::sixth(root, root));
     
-    //cout<<"Ext seventh eg."<<ext7<<endl;
+    //std::cout<<"Ext seventh eg."<<ext7<<std::endl;
     
     //turn vector into deque...(using deque since internally we need to shuffle aruond to test different inversions
-    deque<NotePtr> ch13;
+    std::deque<NotePtr> ch13;
     ch13.insert(ch13.begin(),ext7->notes.begin(),ext7->notes.end());
     
     Chord::print(ch13);
     
     analyse = Chord::analyse(ch13, useShorthand,allowInvensions,allowPolychords);
     for(int i = 0;i<analyse.size();i++){
-        cout<<"Opt "<<i<<": "<<analyse[i]<<endl;
+        std::cout<<"Opt "<<i<<": "<<analyse[i]<<std::endl;
     }
 
     
@@ -222,11 +225,11 @@ int main(){
     allowPolychords = true;
     
     
-    cout<<endl<<"Polychord analysis"<<endl;
+    std::cout<<std::endl<<"Polychord analysis"<<std::endl;
     
-    deque<NotePtr> poly = Chord::triad(Note::create("C"),Note::create("C"))->notes;
+    std::deque<NotePtr> poly = Chord::triad(Note::create("C"),Note::create("C"))->notes;
     
-    deque<NotePtr> chord2= Chord::minorTriad(Note::create("F#"))->notes;
+    std::deque<NotePtr> chord2= Chord::minorTriad(Note::create("F#"))->notes;
     
     poly.insert(poly.end(), chord2.begin(),chord2.end());
     
@@ -235,69 +238,69 @@ int main(){
     
     analyse = Chord::analyse(poly, useShorthand,allowInvensions,allowPolychords);
     for(int i = 0;i<analyse.size();i++){
-        cout<<"Opt "<<i<<": "<<analyse[i]<<endl;
+        std::cout<<"Opt "<<i<<": "<<analyse[i]<<std::endl;
     }
     
     
     
-    cout<<endl<<"Scales"<<endl;
+    std::cout<<std::endl<<"Scales"<<std::endl;
     ScalePtr lyd = Scale::getLydian(Note::create("F"));
-    cout<<lyd<<endl;
+    std::cout<<lyd<<std::endl;
     
 
 
     ScalePtr melMin = Scale::getMelodicMinor(Note::create("C"));
-    cout<<melMin<<endl;
+    std::cout<<melMin<<std::endl;
     
     ScalePtr pentaMaj = Scale::getPentatonicMajor(Note::create("C"));
-    cout<<pentaMaj<<endl;
+    std::cout<<pentaMaj<<std::endl;
     
     
     ScalePtr hirajoshi = Scale::getHirajoshi(Note::create("C"));
-    cout<<hirajoshi<<endl;
+    std::cout<<hirajoshi<<std::endl;
     
     
-    cout<<"V7 to "<<root<<" is ";
+    std::cout<<"V7 to "<<root<<" is ";
     ChordPtr dom7= Progression::getChordFromRoman("V7",root);
-    cout<<dom7<<endl;
+    std::cout<<dom7<<std::endl;
     
-    cout<<"VIdim7 to "<<root<<" is ";
+    std::cout<<"VIdim7 to "<<root<<" is ";
   
     
     
     
     ChordPtr pchord = Progression::getChordfromChordFunction("VIdim7",root);//add dim etc
-    cout<<pchord<<endl;
+    std::cout<<pchord<<std::endl;
     
     
-    string progStr = "bIIdim7,VM7";
-    deque<ChordPtr> prog = Progression::fromString(progStr,root);
+    std::string progStr = "bIIdim7,VM7";
+    std::deque<ChordPtr> prog = Progression::fromString(progStr,root);
     
-    cout<<progStr<<" where I is "<<root<<endl;
+    std::cout<<progStr<<" where I is "<<root<<std::endl;
     Progression::print(prog);
     
     
-    string subtituteMe = "IV7";
-    cout<<endl<<"Harmonic substitution of "<<subtituteMe<<" ";
+    std::string subtituteMe = "IV7";
+    std::cout<<std::endl<<"Harmonic substitution of "<<subtituteMe<<" ";
     Progression::print(Progression::substituteHarmonic(subtituteMe));
     
     
     subtituteMe = "VIm7";
-    cout<<endl<<"Minor for major substitution of "<<subtituteMe<<" ";
+    std::cout<<std::endl<<"Minor for major substitution of "<<subtituteMe<<" ";
     Progression::print(Progression::substituteMinorForMajor(subtituteMe));
     
     
     subtituteMe = "VM7";
-    cout<<endl<<"Major for minor substitution of "<<subtituteMe<<" ";
+    std::cout<<std::endl<<"Major for minor substitution of "<<subtituteMe<<" ";
     Progression::print(Progression::substituteMajorForMinor(subtituteMe));
 
     subtituteMe = "VII";
-    cout<<endl<<"Dim for dim substitution of "<<subtituteMe<<" ";
+    std::cout<<std::endl<<"Dim for dim substitution of "<<subtituteMe<<" ";
     Progression::print(Progression::substituteDiminishedForDiminished(subtituteMe));
 
     
     subtituteMe = "VIIdim";
-    cout<<endl<<"Dim for dom substitution of "<<subtituteMe<<" ";
+    std::cout<<std::endl<<"Dim for dom substitution of "<<subtituteMe<<" ";
     Progression::print(Progression::substituteDiminishedForDominant(subtituteMe));
     
     
@@ -307,42 +310,42 @@ int main(){
     
     
     ChordPtr I = Progression::getChordfromChordFunction("I",root);
-    cout<<I<<endl;
+    std::cout<<I<<std::endl;
     
     ChordPtr II = Progression::getChordfromChordFunction("II",root);
-    cout<<II<<endl;
+    std::cout<<II<<std::endl;
     
     
     ChordPtr IV = Progression::getChordfromChordFunction("IVdim",root);
-    cout<<IV<<endl;
+    std::cout<<IV<<std::endl;
 
     ChordPtr V7 = Progression::getChordfromChordFunction("V7",root);
-    cout<<V7<<endl;
+    std::cout<<V7<<std::endl;
     
-    cout<<root->name<<" ----------------------------"<<endl;
+    std::cout<<root->name<<" ----------------------------"<<std::endl;
     
     ScalePtr mixo = Scale::getMixolydian(Note::create("C",6));
-    cout<<mixo<<endl;
+    std::cout<<mixo<<std::endl;
     
     ScalePtr prygian = Scale::getPhrygian(Note::create("C",6));
-    cout<<prygian<<endl;
+    std::cout<<prygian<<std::endl;
 
     
     ScalePtr flamenco = Scale::getFlamenco(Note::create("E",6));
-    cout<<flamenco<<endl;
+    std::cout<<flamenco<<std::endl;
     
     ScalePtr Zen =  Scale::getInSen(Note::create("C",6));
     
-    cout<<"Scales for 7b9b5"<<endl;
-    vector<string>scales = Scale::getScalesForChord("7b9b5");
+    std::cout<<"Scales for 7b9b5"<<std::endl;
+    std::vector<std::string>scales = Scale::getScalesForChord("7b9b5");
     Scale::print(scales);
     
     
-    NotePtr nn  = Interval::fromShorthand(Note::create("C",6), "b3");
-    cout<<nn<<endl;
+    //NotePtr nn  = Interval::fromShorthand(Note::create("C",6), "b3");
+    //std::cout<<nn<<std::endl;
     
     melMin = Scale::getScaleFromString(scales[0], Note::create("C",6));
-    cout<<melMin<<endl;
+    std::cout<<melMin<<std::endl;
     
 
     
